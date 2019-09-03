@@ -1,0 +1,67 @@
+// Code generated with goa v3.0.4, DO NOT EDIT.
+//
+// todo protocol buffer definition
+//
+// Command:
+// $ goa gen todo/design
+
+syntax = "proto3";
+
+package todo;
+
+option go_package = "todopb";
+
+// Service is the todo service interface.
+service Todo {
+	// Get implements get.
+	rpc Get (GetRequest) returns (GetResponse);
+	// List implements list.
+	rpc List (ListRequest) returns (TodoCollection);
+	// Add implements add.
+	rpc Add (AddRequest) returns (AddResponse);
+	// Remove implements remove.
+	rpc Remove (RemoveRequest) returns (RemoveResponse);
+}
+
+message GetRequest {
+	// Todo ID
+	string id = 1;
+}
+
+message GetResponse {
+	// Todo ID
+	string id = 1;
+	string task = 2;
+}
+
+message ListRequest {
+}
+
+message TodoCollection {
+	repeated Todo1 field = 1;
+}
+
+message Todo1 {
+	// Todo ID
+	string id = 1;
+	string task = 2;
+}
+
+message AddRequest {
+	// Todo ID
+	string id = 1;
+	// Todo task
+	string task = 2;
+}
+
+message AddResponse {
+	string field = 1;
+}
+
+message RemoveRequest {
+	// Todo ID
+	string id = 1;
+}
+
+message RemoveResponse {
+}

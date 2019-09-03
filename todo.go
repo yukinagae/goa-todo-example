@@ -5,17 +5,21 @@ import (
 	"fmt"
 	"log"
 	todo "todo/gen/todo"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 // todo service example implementation.
 // The example methods log the requests and return zero values.
 type todosrvc struct {
+	db     *gorm.DB
 	logger *log.Logger
 }
 
 // NewTodo returns the todo service implementation.
-func NewTodo(logger *log.Logger) todo.Service {
-	return &todosrvc{logger}
+func NewTodo(db *gorm.DB, logger *log.Logger) todo.Service {
+	return &todosrvc{db, logger}
 }
 
 // Get implements get.
@@ -34,7 +38,9 @@ func (s *todosrvc) Get(ctx context.Context, p *todo.GetPayload) (res *todo.Todo,
 // List implements list.
 func (s *todosrvc) List(ctx context.Context) (res todo.TodoCollection, err error) {
 	s.logger.Print("todo.list")
-	return Todos, nil
+	s.logger.Print(s.db)
+	s.db.Find(&res)
+	return res, nil
 }
 
 // Add implements add.
