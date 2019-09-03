@@ -13,6 +13,40 @@ produces:
 - application/xml
 - application/gob
 paths:
+  /:
+    get:
+      tags:
+      - todo
+      summary: list todo
+      operationId: todo#list
+      responses:
+        "200":
+          description: OK response.
+          schema:
+            $ref: '#/definitions/TodoTodoResponseCollection'
+      schemes:
+      - http
+    post:
+      tags:
+      - todo
+      summary: add todo
+      operationId: todo#add
+      parameters:
+      - name: AddRequestBody
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TodoAddRequestBody'
+          required:
+          - id
+          - task
+      responses:
+        "201":
+          description: Created response.
+          schema:
+            type: string
+      schemes:
+      - http
   /{id}:
     get:
       tags:
@@ -32,6 +66,22 @@ paths:
             $ref: '#/definitions/TodoGetResponseBody'
       schemes:
       - http
+    delete:
+      tags:
+      - todo
+      summary: remove todo
+      operationId: todo#remove
+      parameters:
+      - name: id
+        in: path
+        description: Todo ID
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content response.
+      schemes:
+      - http
   /openapi.json:
     get:
       summary: Download ./gen/http/openapi.json
@@ -44,6 +94,24 @@ paths:
       schemes:
       - http
 definitions:
+  TodoAddRequestBody:
+    title: TodoAddRequestBody
+    type: object
+    properties:
+      id:
+        type: string
+        description: Todo ID
+        example: Magni dolor quia et est expedita adipisci.
+      task:
+        type: string
+        description: Todo task
+        example: Voluptatem doloribus veniam quia exercitationem sit.
+    example:
+      id: Et quas quam molestiae molestias rem.
+      task: Vel officia consequatur.
+    required:
+    - id
+    - task
   TodoGetResponseBody:
     title: 'Mediatype identifier: todo; view=default'
     type: object
@@ -62,3 +130,37 @@ definitions:
     required:
     - id
     - task
+  TodoResponse:
+    title: 'Mediatype identifier: todo; view=default'
+    type: object
+    properties:
+      id:
+        type: string
+        description: Todo ID
+        example: todo1
+      task:
+        type: string
+        example: build an API
+    description: TodoResponse result type (default view)
+    example:
+      id: todo1
+      task: build an API
+    required:
+    - id
+    - task
+  TodoTodoResponseCollection:
+    title: 'Mediatype identifier: todo; type=collection; view=default'
+    type: array
+    items:
+      $ref: '#/definitions/TodoResponse'
+    description: ListResponseBody is the result type for an array of TodoResponse
+      (default view)
+    example:
+    - id: todo1
+      task: build an API
+    - id: todo1
+      task: build an API
+    - id: todo1
+      task: build an API
+    - id: todo1
+      task: build an API
