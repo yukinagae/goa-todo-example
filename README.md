@@ -54,13 +54,13 @@ docker-compose build
 HTTP
 
 ```bash
-./todo-cli --url="http://localhost:8080" todo get --id 1
+./todo-cli --url="http://localhost:8080" todo get --id todo1
 ```
 
 gRPC
 
 ```bash
-./todo-cli --url="grpc://localhost:8888" todo get --message '{"id": 1}'
+./todo-cli --url="grpc://localhost:8888" todo get --message '{"id": "todo1"}'
 ```
 
 ## References
